@@ -1,1 +1,83 @@
-<!Doctype HTML>
+<!doctype html>
+<html>
+<head>
+<!-- Styles -->
+	<style type="text/css">
+		/* Style the buttons that are used to open and close the accordion panel */
+		button.accordion {
+    		background-color: #eee;
+    		color: #444;
+    		cursor: pointer;
+    		padding: 18px;
+    		width: 100%;
+    		text-align: left;
+    		border: none;
+    		outline: none;
+    		transition: 0.4s;
+		}
+
+		/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+		button.accordion.active, button.accordion:hover {
+    		background-color: #ddd;
+		}
+
+		/* Style the accordion panel. Note: hidden by default */
+		div.panel {
+    		padding: 0 18px;
+    		background-color: white;
+    		display: none;
+		}
+
+	</style>
+	
+	<script type="text/javascript">
+		var acc = document.getElementsByClassName("accordion");
+		var i;
+
+		for (i = 0; i < acc.length; i++) {
+   			acc[i].onclick = function(){
+        		/* Toggle between adding and removing the "active" class,
+       			to highlight the button that controls the panel */
+        		this.classList.toggle("active");
+
+        		/* Toggle between hiding and showing the active panel */
+        		var panel = this.nextElementSibling;
+        		if (panel.style.display === "block") {
+           			panel.style.display = "none";
+        		}
+        		else {
+            		panel.style.display = "block";
+        		}
+    		}
+		}
+	</script>
+
+</head>
+
+<body>
+<!-- If you add an anchor for contact info, extra credit -->
+	<h1>Kirsten Bauman</h1>
+	<h2>127 E Santa Cruz Dr, Tempe, Arizona</h2>
+	<h3>kirsten.bauman@asu.edu, | (602)-622-2498</h3>
+
+<!--Section 1-->
+	<button class = "accordion">Objective</button>
+	<div class ='panel'>
+	Want Job.
+	</div>
+
+<!--Section 2-->
+	<button class = "accordion">Skills</button>
+	<div class ='panel'>
+	All of the skills.
+	</div>
+
+<!--Section 3-->
+	<button class = "accordion">Skills</button>
+	<div class ='panel'>
+	All of the skills.
+	</div>
+
+</body>
+
+</html>
