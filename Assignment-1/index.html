@@ -3,10 +3,39 @@
 <head>
 <!-- Styles -->
 	<style type="text/css">
+
+		@import url('https://fonts.googleapis.com/css?family=Droid+Sans');
+
+		p {
+			font-family: 'Droid Sans', sans-serif;
+			font-size: 13pt;
+		}
+
+		h1 {
+			font-family: 'Droid Sans', sans-serif;
+			color: #398483;
+			text-align: center;
+		}
+
+		h2 {
+			font-family: 'Droid Sans', sans-serif;
+			text-align: center;
+		}
+
+		h3 {
+			font-family: 'Droid Sans', sans-serif;
+			text-align: center;
+		}
+
+		li {
+			font-family: 'Droid Sans', sans-serif;
+			font-size: 13pt;
+		}
+
 		/* Style the buttons that are used to open and close the accordion panel */
 		button.accordion {
-    		background-color: #eee;
-    		color: #444;
+    		background-color: #81c1c0;
+    		color: #fff;
     		cursor: pointer;
     		padding: 18px;
     		width: 100%;
@@ -18,7 +47,8 @@
 
 		/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 		button.accordion.active, button.accordion:hover {
-    		background-color: #ddd;
+    		background-color: #699e9d
+;
 		}
 
 		/* Style the accordion panel. Note: hidden by default */
@@ -28,8 +58,184 @@
     		display: none;
 		}
 
+		button.accordion:after {
+    		content: '\02795'; /* Unicode character for "plus" sign (+) */
+    		font-size: 13px;
+    		color: #777;
+    		float: right;
+    		margin-left: 5px;
+		}
+
+		button.accordion.active:after {
+    		content: "\2796"; /* Unicode character for "minus" sign (-) */
+		}
+
+		button {
+			font-weight: bold;
+			font-size: 16pt;
+			font-kerning: normal;
+		}
+
+		#subheader {
+			font-weight: 900;
+			width: 350px;
+		}
+
+		#bold {
+			font-weight: 900;
+		}
+
+		#inline {
+			display: inline-flex;
+		}
+
+		#space {
+			margin-left: 400px;
+		}
+
+		a {
+			text-decoration: none;
+			color: #000;
+		}
+
+		a:hover {
+			color: #398483;
+		}
+
 	</style>
-	
+
+</head>
+
+<body>
+<!-- If you add an anchor for contact info, extra credit -->
+	<h1>Kirsten Bauman</h1>
+	<h2><a href="https://www.google.com/maps/place/127+E+Santa+Cruz+Dr,+Tempe,+AZ+85282/@33.3870135,-111.939242,17z/data=!3m1!4b1!4m5!3m4!1s0x872b08a6f941de4b:0xfb65b0ff256c8a71!8m2!3d33.387009!4d-111.937048" target="_blank">
+	127 E Santa Cruz Dr, Tempe, Arizona</a></h2>
+	<h3><a href="mailto:kebauma1@asu.edu">kirsten.bauman@asu.edu</a> | (602)-622-2498</h3>
+
+<!--Section 1-->
+	<button class = "accordion">Objective</button>
+	<div class = "panel">
+	<p>I am pursuing a career in the User Experience Field. I want to apply the skills I have learned in school
+	to a creative work environment. I hope to find a company that allows a bit of creative freedom in its projects.</p>
+	</div>
+
+<!--Section 2-->
+	<button class = "accordion">Education</button>
+	<div class = "panel">
+	<div id = "inline">
+		<p>Herberger Institute for Design and the Arts</p>
+		<p id = "space">May 2018</p>
+	</div>
+	<p id = "bold">Bachelor of Arts, Digital Culture concentration in Media Processing | 4.00 GPA</p>
+	<p id="subheader">Minor, Film and Media Production</p>
+	<p>Ira A. Fulton Schools of Engineering</p>
+	<p id="subheader">Certificate, Computer Gaming</p>
+	<p>Barrett, the Honors College, Arizona State University, Tempe, Arizona</p>
+	</div>
+
+<!--Section 3-->
+	<button class = "accordion">Skills</button>
+	<div class = "panel">
+		<p id = "subheader">Programming</p>
+		<ul>
+			<li>Java</li>
+			<li>C/C++</li>
+			<li>C#</li>
+			<li>HTML/CSS</li>
+			<li>SQL</li>
+			<li>Unity and GameMaker</li>
+		</ul>
+		<p id = "subheader">Design</p>
+		<ul>
+			<li>Sketch, Photoshop</li>
+			<li>Balsamiq</li>
+			<li>Omnigraffle</li>
+			<li>Rhino, 3DsMax</li>
+			<li>Adobe AfterEffects</li>
+		</ul>
+	</div>
+
+<!--Section 4-->
+	<button class = "accordion">Relevant Coursework</button>
+	<div class = "panel">
+	<div id="inline">
+		<p id="subheader">Website Development and Launch</p>
+		<p id = "space">Aug 2016 - Dec 2016</p>
+	</div>
+	<p>CPI 310 | Web Information Management System, Arizona State University, Tempe, AZ</p>
+		<ul>
+			<li>Designed and developed a full functioning website using HTML/CSS and then transferring to SQL/PHP in a six person team to give UX Designers a place to collaborate on designs</li>
+		</ul>
+	<div id="inline">
+		<p id="subheader">Interactive Mac Applications</p>
+		<p id="space">Aug 2016 - Dec 2016</p>
+	</div>
+	<p>AME 430 | Mac Development for Media Arts, Arizona State University, Tempe, AZ</p>
+		<ul>
+			<li>Created multiple interactive Mac applications in which one was a simple pumpkin face slider that animated light and another was a ring collection game that kept track of the user's score and the overall high score</li>
+		</ul>
+	<div id="inline">
+		<p id="subheader">Game Development Project</p>
+		<p id="space">Aug 2015 - Dec 2015</p>
+	</div>
+	<p>CPI 211 | Game Development II, Arizona State University, Tempe, AZ</p>
+		<ul>
+			<li>Developed a storyline, concept, and game mode for a simple computer game which involved creating concept art, 3D modeling of game assets, visual effects in game, coding of game mechanics, and testing of prototype game</li>
+		</ul>
+	<div id="inline">
+		<p id="subheader">Transmedia Story for Future Technology</p>
+		<p id="space">Aug 2015 - Dec 2015</p>
+	</div>
+	<p>AME 130 | Prototyping Dreams, Arizona State University, Tempe, AZ</p>
+		<ul>
+			<li>Imagined a future technology that influenced current society resulting in a transmedia story in three different mediums: paper, pixels, and plastic</li>
+		</ul>
+	<div id="inline">
+		<p id="subheader">Animated Story Clip</p>
+		<p id="space">Mar 2015 - May 2015</p>
+	</div>
+	<p>FMP 294 | Introduction to Animation, Arizona State University, Tempe, AZ</p>
+		<ul>
+			<li>Created a storyboard for a minute long clip of 3D animation resulting in a fully rendered video of animated characters</li>
+		</ul>
+	</div>
+
+<!--Section 5-->
+	<button class = "accordion">Work Experience</button>
+	<div class = "panel">
+	<div id="inline">
+		<p id="subheader">UX Design Intern</p>
+		<p id="space">June 2016 - present</p>
+	</div>
+	<p>Prism Studios, Chandler, AZ</p>
+		<ul>
+			<li>Created user workflows, wireframes, and visuals for company projects based on given requirements from clients and project managers</li>
+			<li>Developed protoypes using InVision App to display use cases to users and clients</li>
+			<li>Designed storyboards showcasing use cases from imagined users for presenting projects with user context</li>
+			<li>Assisted in user research for high-complexity web applications ranging from quick interviews to contextual inquiries to gain insight on how users work through the application</li>
+			<li>Worked with clients during Ideation sessions and giving updates on project progress to build good working relationships</li>
+			<li>Wrote and edited blog posts showcasing the company's knowledge in UX Design and creative thinking to expand the company's marketing campaign</li>
+		</ul>
+	<div id="inline">
+		<p id="subheader">Sales Associate</p>
+		<p id="space">Dec 2012 - Aug 2014</p>
+	</div>
+	<p>Abercrombie and Fitch, Phoenix, AZ</p>
+		<ul>
+			<li>Maintained knowledge of current promotions, policies regarding payment and exchanges, and security practices to keep the store up to company standards</li>
+			<li>Explained information about the quality, value, and style of products to influence customer buying decisions</li>
+		</ul>
+	<div id="inline">
+		<p id="subheader">Student Ambassador to France</p>
+		<p id="space">July 2013</p>
+	</div>
+	<p>American Field Services (AFS)</p>
+		<ul>
+			<li>Represented the United States to foreign cultures while attending an international French language school</li>
+		</ul>
+	</div>
+
 	<script type="text/javascript">
 		var acc = document.getElementsByClassName("accordion");
 		var i;
@@ -51,32 +257,6 @@
     		}
 		}
 	</script>
-
-</head>
-
-<body>
-<!-- If you add an anchor for contact info, extra credit -->
-	<h1>Kirsten Bauman</h1>
-	<h2>127 E Santa Cruz Dr, Tempe, Arizona</h2>
-	<h3>kirsten.bauman@asu.edu, | (602)-622-2498</h3>
-
-<!--Section 1-->
-	<button class = "accordion">Objective</button>
-	<div class ='panel'>
-	Want Job.
-	</div>
-
-<!--Section 2-->
-	<button class = "accordion">Skills</button>
-	<div class ='panel'>
-	All of the skills.
-	</div>
-
-<!--Section 3-->
-	<button class = "accordion">Skills</button>
-	<div class ='panel'>
-	All of the skills.
-	</div>
 
 </body>
 
