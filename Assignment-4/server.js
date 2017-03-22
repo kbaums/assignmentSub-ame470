@@ -52,34 +52,18 @@ server.get("/deleteTodo", function (req, res) {
    // todoList.splice(index,1);
 });
 
-/*server.get("/renamePhoto", function (req, res) {
+server.get("/renamePhoto", function (req, res) {
    //var id = parseInt(req.query.id);
    var id = req.query.id.toString();
    var newName = req.query.name.toString();
    console.log(id);
-   db.collection("data").save({name: newName}, function(err, result){
-     console.log(err);
-      if(err){
-        res.send("error"); 
-      }
-      else{
-        db.collection("data").find({}).toArray( function(err1, result1) {
-          res.send(JSON.stringify(result1));
-        });
-      }
-    }]);
-   /*db.collection("data").update(id, {$set: {name: newName} }, {}, function(err, result){
-     console.log(err);
-      if(err){
-        res.send("error"); 
-      }
-      else{
-        db.collection("data").find({}).toArray( function(err1, result1) {
-          res.send(JSON.stringify(result1));
-        });
-      }
-   });
-  });*/
+   db.collection("data").update({id: id}, {$set: {name: newName} });
+
+   db.collection("data").find({}).toArray( function(err, result) {
+    res.send(JSON.stringify(result));
+  });
+
+  });
 
 server.get("/getTodos", function (req, res) {
   db.collection("data").find({}).toArray( function(err, result) {

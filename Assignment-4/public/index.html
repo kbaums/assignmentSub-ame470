@@ -20,16 +20,6 @@
 
     }
 
-    function deleteTodo(index){
-      var flag = confirm("Are you sure you want to delete?");
-      if(flag){
-        var url = "./deleteTodo" + "?id=" + index;
-        loadFile(url ,function(d){
-          formatTodos(JSON.parse(d));
-        });
-      }
-    }
-
     function formatTodos(list)
     {
       var markup = "";
@@ -90,13 +80,26 @@
       });
     }
 
+    function deleteImage(){
+      var index = currSel;
+      var flag = confirm("Are you sure you want to delete?");
+      if(flag){
+        var url = "./deleteTodo" + "?id=" + index;
+        loadFile(url ,function(d){
+          formatTodos(JSON.parse(d));
+        });
+      }
+    }
+
     function rename() {
-      var id = index;
+      var id = currSel
       var name = prompt("Enter the image name:");
       var url = "./renamePhoto" + "?id=" + id + "&name=" + name;
         loadFile(url ,function(d){
           formatTodos(JSON.parse(d));
         });
+      location.reload();
+      imageSelect(id);
     }
 
     function start()
