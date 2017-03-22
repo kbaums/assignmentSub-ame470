@@ -98,8 +98,11 @@
         loadFile(url ,function(d){
           formatTodos(JSON.parse(d));
         });
-      location.reload();
-      imageSelect(id);
+      
+      start();
+      
+      document.getElementById("theTitle").innerHTML = name;
+
     }
 
     function start()
