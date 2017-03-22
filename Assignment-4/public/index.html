@@ -1,6 +1,8 @@
 <!doctype html>
 <html>
 <head>
+
+  <meta name='viewport' content="initial-scale=1.0, user-scalable=no, width=device-width, maximum-scale=1.0">
   <script src='asyncReq.js'> </script>
   <script>
     function addNew(){
@@ -8,7 +10,7 @@
       var photoURL = prompt("Enter the image URL:");
       var id = new Date().getTime();
       
-      if (name != null && photoURL != null){
+      if(photoURL.indexOf("http") >=0 && photoURL.length > 10){
         var url = "./addTodo" + "?id=" + id + "&name=" + name + "&url=" + photoURL;
         loadFile(url ,function(d){
           formatTodos(JSON.parse(d));
@@ -33,15 +35,17 @@
       var markup = "";
       if(list.length == 0){
         markup = "No pictures yet"
+        document.getElementById("todoListWrapper").innerHTML = markup;
+        return;
       }
       else{
         for(var i = 0; i < list.length; i++){
-          markup += "<li class='selectable' id='" + list[i].id + "'><div>" + list[i].name + "</div><div class = 'box'><div class='thumb'; onclick='showImage(\"" + list[i].url + "\", \"" + list[i].name + "\", \"" + list[i].id + "\")'; style='background-image:url(" + list[i].url + ");'> </div>" +
-            "<div class='space'></div><button class='delButton' onclick='deleteTodo(" + list[i].id + ")'> X </button></div>"+
-            "</li>"; 
+          markup += "<li class='selectable' id='" + list[i].id + "'><div>" + list[i].name + "</div><div class = 'box'><div class='thumb'; onclick='imageSelect("
+          + list[i].id + ")'; style='background-image:url(" + list[i].url + ");'> </div></div></div></li>"; 
         }
       }
       document.getElementById("todoListWrapper").innerHTML = markup;
+      imageSelect(list[0].id);
     }
 
     /*function showImage(item) {
@@ -49,8 +53,8 @@
       document.getElementById("largeImage").style.backgroundImage = image;
     }*/
 
-    function showImage(item, subtitle, index) {
-      var image = "<div> <img src=" + item + "> </br><h2>" + subtitle + "</h2> <button onclick='rename(\"" + index + "\")'>Rename</div>";
+    /*function showImage(item, subtitle, index) {
+      var image = "<div> <img src=" + item + "> </br><h2>" + subtitle + "</h2>";
 
       var photos = document.getElementsByClassName("selectable");
 
@@ -62,10 +66,31 @@
 
       document.getElementById(id).style.backgroundColor = '#d2f6f9';
 
-      document.getElementById("largeImage").innerHTML = image;
+      document.getElementById("largeImage").style.backgroundImage = "url(" + item + );
+    }*/
+
+    var currSel = 0;
+    function imageSelect(id) {
+      currSel = id;
+
+      var photos = document.getElementsByClassName("selectable");
+
+      for(i = 0; i < photos.length; i++) {
+        photos[i].style.backgroundColor = 'white';
+      }
+
+      document.getElementById(id).style.backgroundColor = '#d2f6f9';
+
+
+      var url = "./getPhoto?id=" + id;
+      loadFile(url ,function(d) {
+        var data = JSON.parse(d);
+        document.getElementById("theTitle").innerHTML = data.name;
+        document.getElementById("largeImage").innerHTML = "<img class='enlarge' src=" + data.url + ">";
+      });
     }
 
-    function rename(index) {
+    function rename() {
       var id = index;
       var name = prompt("Enter the image name:");
       var url = "./renamePhoto" + "?id=" + id + "&name=" + name;
@@ -107,8 +132,8 @@
       }
 
       .enlarge {
-        width: 300px;
-        height: 300px;
+        max-width: 80%;
+        max-height: 80%;
         background-position: 50%;
         background-size: cover;
       }
@@ -118,12 +143,50 @@
       }
 
       .space {
-        width: 400px;
+        padding-left: 3%;
+        align-content: center;
       }
 
       #todoListWrapper {
         list-style: none;
       }
+
+      .selected {
+        background-color: #d2f6f9;
+      }
+
+      .left {
+        float: left;
+        width: 50%;
+      }
+
+      .right {
+        float: right;
+        width: 47%;
+        padding-left: 3%;
+      }
+
+      @media (max-width: 400px) {
+        .left {
+          width: 100%;
+          margin-bottom: 1%;
+        }
+
+        .right {
+          width: 100%;
+          margin-top: 1%;
+          padding-left: 0%;
+        }
+      }
+
+      /*@media (min-width: 400px) and (max-width: 800px) {
+        
+      }
+
+      @media (min-width: 800px) {
+
+      }*/
+
       
   </style>
 </head>
@@ -131,12 +194,15 @@
 <body onload='start()'>
   <h1> My Image Collection </h1>
   <button id='addButton' onclick='addNew()'> + </button>
-   <div style="float:left; width:50%">
+   <div class="left">
     <ol id='todoListWrapper'> </ol>
        <!--<img src="">-->
     </div>
-   <div style="float:right; width:50%" >
-      <div id="largeImage" class='enlarge'> </div>
+   <div class="right" class="space">
+      <div id="largeImage" class='enlarge'></div>
+      <h2 id="theTitle"></h2>
+      <button onclick='deleteImage()'> Delete </button>
+      <button onclick='rename()'> Rename </button>
    </div>
   
 </body>

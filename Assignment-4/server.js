@@ -52,14 +52,12 @@ server.get("/deleteTodo", function (req, res) {
    // todoList.splice(index,1);
 });
 
-server.get("/renamePhoto", function (req, res) {
+/*server.get("/renamePhoto", function (req, res) {
    //var id = parseInt(req.query.id);
-   var id = req.query.id;
-   var newName = req.query.name;
+   var id = req.query.id.toString();
+   var newName = req.query.name.toString();
    console.log(id);
-   db.collection("data").update({id: id}, {$set {name: newName} });
-
-   /*function(err, result){
+   db.collection("data").save({name: newName}, function(err, result){
      console.log(err);
       if(err){
         res.send("error"); 
@@ -69,11 +67,19 @@ server.get("/renamePhoto", function (req, res) {
           res.send(JSON.stringify(result1));
         });
       }
-   });*/
-   db.collection("data").find({}).toArray( function(err, result) {
-    res.send(JSON.stringify(result));
-  });
-});
+    }]);
+   /*db.collection("data").update(id, {$set: {name: newName} }, {}, function(err, result){
+     console.log(err);
+      if(err){
+        res.send("error"); 
+      }
+      else{
+        db.collection("data").find({}).toArray( function(err1, result1) {
+          res.send(JSON.stringify(result1));
+        });
+      }
+   });
+  });*/
 
 server.get("/getTodos", function (req, res) {
   db.collection("data").find({}).toArray( function(err, result) {
@@ -81,6 +87,13 @@ server.get("/getTodos", function (req, res) {
   });
 
    // res.send(JSON.stringify(todoList));
+});
+
+server.get("/getPhoto", function (req, res) {
+  var id = req.query.id.toString();
+  db.collection("data").findOne({id:id}, function(err, result) {
+    res.send(JSON.stringify(result));
+  });
 });
 
 server.use(methodOverride());
