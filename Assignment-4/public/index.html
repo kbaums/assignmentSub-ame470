@@ -76,7 +76,7 @@
       loadFile(url ,function(d) {
         var data = JSON.parse(d);
         document.getElementById("theTitle").innerHTML = data.name;
-        document.getElementById("largeImage").innerHTML = "<img class='enlarge' src=" + data.url + ">";
+        document.getElementById("largeImage").innerHTML = "<img id='theImage' class='enlarge' src=" + data.url + ">";
       });
     }
 
@@ -103,6 +103,17 @@
       
       document.getElementById("theTitle").innerHTML = name;
 
+    }
+
+    function editImage(){
+      var url = document.getElementById("theImage").src.replace('url("', "").replace('")', "");
+      document.getElementById("DRFrame").src = "./demo/index.html#" + url;
+      document.getElementById("editWrapper").style.display = "block";
+    }
+
+    function cancelImageEdit() {
+    	document.getElementById("DRFrame").src = "";
+    	document.getElementById("editWrapper").style.display = "none";
     }
 
     function start()
@@ -172,6 +183,25 @@
         padding-left: 3%;
       }
 
+      #editWrapper{
+        display: none;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        background: rgba(0,0,0,.5);
+      }
+
+      #editWrapper button{
+        position: fixed;
+        float: right;
+      }
+
+      #DRFrame{
+      	height: 80%;
+      	width: 80%;
+      	background: transparent;
+      }
+
       @media (max-width: 400px) {
         .left {
           width: 100%;
@@ -209,6 +239,14 @@
       <h2 id="theTitle"></h2>
       <button onclick='deleteImage()'> Delete </button>
       <button onclick='rename()'> Rename </button>
+      <button onclick='editImage()'> Edit </button>
+   </div>
+
+
+   <div id='editWrapper'>
+    <iframe crossorigin='anonymous' id='DRFrame'></iframe>
+    <button onclick='saveImageEdit()' style='right:0px' > Save </button>
+    <button onclick='cancelImageEdit()'> Cancel </button>
    </div>
   
 </body>
