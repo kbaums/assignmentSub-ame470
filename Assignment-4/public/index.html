@@ -4,6 +4,8 @@
 
   <meta name='viewport' content="initial-scale=1.0, user-scalable=no, width=device-width, maximum-scale=1.0">
   <script src='asyncReq.js'> </script>
+  <script src='https://code.jquery.com/jquery-3.2.0.min.js'> </script>
+  <script src='jquery-2.2.1.min.js'> </script>
   <script>
     function addNew(){
       var name = prompt("Enter the image name:");
@@ -66,7 +68,7 @@
       var photos = document.getElementsByClassName("selectable");
 
       for(i = 0; i < photos.length; i++) {
-        photos[i].style.backgroundColor = 'white';
+        photos[i].style.background = 'transparent';
       }
 
       document.getElementById(id).style.backgroundColor = '#d2f6f9';
@@ -109,20 +111,128 @@
       var url = document.getElementById("theImage").src.replace('url("', "").replace('")', "");
       document.getElementById("DRFrame").src = "./demo/index.html#" + url;
       document.getElementById("editWrapper").style.display = "block";
+      sessionStorage.setItem("isEdited", "false");
     }
+
+    function saveImageEdit(){
+    if(sessionStorage.getItem("isEdited") == "true"){
+     var fd = new FormData();
+     var fileInput = document.getElementById("theImage").src.split("ame470kb/")[1];
+     fileInput = fileInput.split("?")[0];
+     fd.append('fileInput', fileInput);
+     fd.append('date', (new Date()).toString());
+     fd.append('data', sessionStorage.getItem("editedImage"));
+      //fd.append('data', data);
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function(e) {  
+        cancelImageEdit();
+        if (xhr.readyState != 4) { return; }
+          // callback logic
+        document.getElementById("theImage").src = "https://s3-us-west-2.amazonaws.com/ame470kb/" + fileInput + "?t=" + new Date().getTime();
+      };
+      xhr.open("POST", "/uploadImage", true);
+      xhr.send(fd);
+  }
+}
 
     function cancelImageEdit() {
     	document.getElementById("DRFrame").src = "";
     	document.getElementById("editWrapper").style.display = "none";
     }
 
+    var touch = null;
+    var mouse = null;
+    var ios = null;
+    var android = null;
+    var iphone = null;
+
+    function parseUA() {
+    	var ua = navigator.userAgent.toLowerCase();
+    	if(ua.indexOf("iphone") >= 0) {
+    		iphone = true;
+    		ios = true;
+    		touch = true;
+    		android = false;
+    		mouse = false;
+    	}
+    	else if (ua.indexOf("ipad") >= 0) {
+    		iphone = false;
+    		ios = true;
+    		touch = true;
+    		android = false;
+    		mouse = false;
+    	}
+    	else if(ua.indexOf("android") >= 0) {
+    		iphone = false;
+    		ios = false;
+    		touch = true;
+    		android = true;
+    		mouse = false;
+    	}
+    	else {
+    		iphone = false;
+    		ios = false;
+    		touch = false;
+    		android = false;
+    		mouse = true;
+    	}
+    	if (mouse) {
+    		$("body").addClass("mouse");
+    	}
+    	else {
+    		$("body").addClass("touch");
+    	}
+    }
+
     function start()
     {
+      parseUA();
       var url = "./getTodos";
       loadFile(url ,function(d){
         console.log(d);
         formatTodos(JSON.parse(d));
       })
+    }
+
+   var fileUploaded = function()
+   {
+   var file = $('#theFileUploader').get(0);
+   var fileObj = $('#theFileUploader').get(0).files[0]
+   var filename = fileObj.name;
+   var ext = filename.split(".");
+   ext = ext[ext.length-1];
+   console.log(ext);
+
+   var fd = new FormData();
+   var fileInput = "s3Upload_" + new Date().getTime().toString() + "." + ext;
+   fd.append('fileInput', fileInput);
+   fd.append('input', file.files[0]);
+   var id = (new Date()).toString();
+   fd.append('date', id);
+
+
+    //fd.append('data', data);
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(e) {  
+      if (xhr.readyState != 4) { return; }
+      // callback logic STILL NEED TO ADD TO LIST
+      //document.getElementById("todoListWrapper").innerHTML += "<li class='selectable'id='" + id + "'><div>" + fileInput + "</div><div class = 'box'><div class='thumb'; onclick='imageSelect(" + id + ")'; style='background-image:url(https://s3-us-west-2.amazonaws.com/ame470kb/" + fileInput + ");'></div></div></li>";
+      //document.getElementById("preview").src = "https://s3-us-west-2.amazonaws.com/ame470kb/" + fileInput;
+      alert("done");
+    };
+    xhr.open("POST", "/uploadFile", true);
+    xhr.send(fd);
+
+    var name = prompt("Enter the image name:");
+    var photoURL = "https://s3-us-west-2.amazonaws.com/ame470kb/" + fileInput;
+    var time = new Date().getTime();
+      
+      if(photoURL.indexOf("http") >=0 && photoURL.length > 10){
+        var url = "./addTodo" + "?id=" + time + "&name=" + name + "&url=" + photoURL;
+        loadFile(url ,function(d){
+          formatTodos(JSON.parse(d));
+        }); 
+      }
     }
   </script>
   <style>
@@ -133,8 +243,16 @@
       {
         position: absolute;
         top: 20px;
+        right: 50px;
+      }
+
+      #theFileUploader
+      {
+        position: absolute;
+        top: 20px;
         right: 20px;
       }
+
       .delButton
       {
           float: right;
@@ -166,6 +284,15 @@
 
       #todoListWrapper {
         list-style: none;
+        padding-left: 3%;
+      }
+
+      .mouse #todoListWrapper li:hover {
+      	background: gold;
+      }
+
+      .touch #todoListWrapper li:active {
+      	background: gold;
       }
 
       .selected {
@@ -181,6 +308,10 @@
         float: right;
         width: 47%;
         padding-left: 3%;
+      }
+
+      .break {
+      	right: 0px;
       }
 
       #editWrapper{
@@ -213,6 +344,21 @@
           margin-top: 1%;
           padding-left: 0%;
         }
+
+        #todoListWrapper {
+        	padding-left: 0%;
+        	list-style: none;
+        }
+
+        .space {
+        	padding-left: 2%;
+        	align-content: center;
+        }
+
+        .break {
+        	top: 20%;
+        	right: inherit;
+        }
       }
 
       /*@media (min-width: 400px) and (max-width: 800px) {
@@ -230,6 +376,7 @@
 <body onload='start()'>
   <h1> My Image Collection </h1>
   <button id='addButton' onclick='addNew()'> + </button>
+  <input type='file' id='theFileUploader' onchange='fileUploaded()'> 
    <div class="left">
     <ol id='todoListWrapper'> </ol>
        <!--<img src="">-->
@@ -245,7 +392,7 @@
 
    <div id='editWrapper'>
     <iframe crossorigin='anonymous' id='DRFrame'></iframe>
-    <button onclick='saveImageEdit()' style='right:0px' > Save </button>
+    <button onclick='saveImageEdit()' class='break' > Save </button>
     <button onclick='cancelImageEdit()'> Cancel </button>
    </div>
   
