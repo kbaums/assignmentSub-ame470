@@ -127,6 +127,23 @@ server.post('/uploadFile', function(req, res){
         });
   });
 
+server.post('/uploadImage', function(req, res){
+    var intname = req.body.fileInput;
+    var s3Path = '/' + intname;
+    var buf = new Buffer(req.body.data.replace(/^data:image\/\w+;base64,/, ""),'base64');
+    var params = {
+        Bucket:'ame470kb',
+        ACL:'public-read',
+        Key:intname,
+        Body: buf,
+        ServerSideEncryption : 'AES256'
+    };
+    s3.putObject(params, function(err, data) {
+        console.log(err);
+        res.end("success");
+    });
+});
+
 server.use(methodOverride());
 server.use(bodyParser());
 server.use(express.static(__dirname + '/public'));
