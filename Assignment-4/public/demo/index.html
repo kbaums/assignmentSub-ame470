@@ -11,8 +11,22 @@
   }
   </style>
 </head>
-<body>
+<body >
   <div id="content">
+    </br>
+    <div style="background-color: white">
+    Blur <input type="range" id="blur" value="0" min="0" max="100" data-show-value="true" onchange="applyFilters()">
+    </br>
+    Contrast <input type="range" id="contrast" value="100" min="0" max="200" data-show-value="true" onchange="applyFilters()">
+    </br>
+    Brightness <input type="range" id="brightness" value="100" min="0" max="200" data-show-value="true" onchange="applyFilters()">
+    </br>
+    Invert <input type="range" id="invert" value="0" min="0" max="100" data-show-value="true" onchange="applyFilters()">
+    </br>
+    Saturation <input type="range" id="saturate" value="0" min="0" max="10" data-show-value="true" onchange="applyFilters()">
+    </br>
+    <button onclick="applyFilters()"> Update </button>
+    </div>
     <div class="container">
       <section class="copy">
         <div class="figure-wrapper">
@@ -68,9 +82,43 @@
         this.addEventListener('core:transformation', function() {  
             sessionStorage.setItem("editedImage", dkrm.canvas.toDataURL())
             sessionStorage.setItem("isEdited", "true");
+                    //apply(canvas);
+            applyFilters();
           });
+
       }
+
     });
+
+      /*function apply(c) {
+            
+            console.log(image.src);
+            sessionStorage.setItem("editedImage", image);
+      }*/
+
+    function applyFilters() {
+      var blur = document.getElementById("blur").value;
+      var contrast = document.getElementById("contrast").value;
+      var brightness = document.getElementById("brightness").value;
+      var invert = document.getElementById("invert").value;
+      var saturate = document.getElementById("saturate").value;
+
+      var filter = "blur(" + blur + "%) contrast(" + contrast + "%) brightness(" + brightness + "%) invert(" + invert + "%) saturate(" + saturate + ")";
+      console.log(filter);
+                    var orig =  dkrm.canvas.toDataURL();
+                    //console.log(orig);
+                    var ctx = dkrm.canvas.getContext("2D");
+                    ctx.filter = filter;
+                    var image = new Image();
+                    image.onload = function() {
+                      ctx.drawImage(image, 0, 0);
+                    }
+                    image.src = orig; 
+                    sessionStorage.setItem("editedImage", image);
+    }
+
+
+
   </script>
 
 </body>

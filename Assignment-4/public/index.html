@@ -6,6 +6,7 @@
   <script src='asyncReq.js'> </script>
   <script src='https://code.jquery.com/jquery-3.2.0.min.js'> </script>
   <script src='jquery-2.2.1.min.js'> </script>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/camanjs/4.0.0/caman.full.min.js'></script>
   <script>
     function addNew(){
       var name = prompt("Enter the image name:");
@@ -234,6 +235,9 @@
         }); 
       }
     }
+
+
+
   </script>
   <style>
       h1{
@@ -391,9 +395,9 @@
 
 
    <div id='editWrapper'>
-    <iframe crossorigin='anonymous' id='DRFrame'></iframe>
-    <button onclick='saveImageEdit()' class='break' > Save </button>
+      <button onclick='saveImageEdit()' class='break' > Save </button>
     <button onclick='cancelImageEdit()'> Cancel </button>
+    <iframe crossorigin='anonymous' id='DRFrame'></iframe>
    </div>
   
 </body>
