@@ -144,6 +144,13 @@ server.post('/uploadImage', function(req, res){
     });
 });
 
+server.get("/saveFilters", function (req, res) {
+  var i = req.query.id.toString();
+  var filt = req.query.filter.toString();
+    
+  db.collection("data").update({id: i}, {$set: {filter: filt}});
+});
+
 server.use(methodOverride());
 server.use(bodyParser());
 server.use(express.static(__dirname + '/public'));
