@@ -9,6 +9,24 @@
   body, html {
     background: transparent;
   }
+
+  @media (max-width: 400px) {
+    .container {
+      width: auto;
+    }
+
+    .image-container.target {
+      width: 100%;
+    }
+
+    canvas {
+      width: 100%;
+    }
+  }
+
+
+
+
   </style>
 </head>
 <body>
@@ -19,18 +37,18 @@
         <div class="figure-wrapper">
           <figure class="image-container target">
             <img crossorigin='anonymous' src="" alt="" id="target">
-            </br>
-    <div style="background-color: white">
-    Blur <input type="range" id="blur" value="0" min="0" max="100" data-show-value="true" onchange="applyFilters()">
-    </br>
-    Contrast <input type="range" id="contrast" value="100" min="0" max="200" data-show-value="true" onchange="applyFilters()">
-    </br>
-    Brightness <input type="range" id="brightness" value="100" min="0" max="200" data-show-value="true" onchange="applyFilters()">
-    </br>
-    Invert <input type="range" id="invert" value="0" min="0" max="100" data-show-value="true" onchange="applyFilters()">
-    </br>
-    Saturation <input type="range" id="saturate" value="100" min="0" max="200" data-show-value="true" onchange="applyFilters()">
-    </div>
+            <br/>
+            <div style="background-color: white">
+            Blur <input type="range" id="blur" value="0" min="0" max="100" data-show-value="true" onchange="applyFilters()">
+            <br/>
+            Contrast <input type="range" id="contrast" value="100" min="0" max="200" data-show-value="true" onchange="applyFilters()">
+            <br/>
+            Brightness <input type="range" id="brightness" value="100" min="0" max="200" data-show-value="true" onchange="applyFilters()">
+            <br/>
+            Invert <input type="range" id="invert" value="0" min="0" max="100" data-show-value="true" onchange="applyFilters()">
+            <br/>
+            Saturation <input type="range" id="saturate" value="100" min="0" max="200" data-show-value="true" onchange="applyFilters()">
+            </div>
             <figcaption id='caption' class="image-meta">
             </figcaption>
           </figure>
@@ -55,7 +73,7 @@
       // Size options
       minWidth: 100,
       minHeight: 100,
-      maxWidth: 600,
+      maxWidth: document.documentElement.clientWidth,
       maxHeight: 500,
       ratio: 4/3,
       backgroundColor: '#000',
@@ -82,7 +100,7 @@
         //});
 
         prefilter = dkrm.canvas.toDataURL();
-        
+      
 
         this.addEventListener('core:transformation', function() {  
             sessionStorage.setItem("editedImage", dkrm.canvas.toDataURL())
@@ -120,7 +138,6 @@ var prefilter = null;
       img.src = orig;
       sessionStorage.setItem("filters", filter);
     }
-
 
      /*function update(c) {
             var orig =  c.toDataURL();
